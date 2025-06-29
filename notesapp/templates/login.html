@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+<body>
+
+    {% include 'includes/message.html' %}
+<section class="wrapper d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container">
+        <div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
+
+            <form class="rounded bg-white shadow p-5" method="POST">
+                {% csrf_token %}
+                
+                <h3 class="text-dark fw-bolder fs-4 mb-2">Sign In to <a href="{% url 'home' %}" class="text-primary fw-bold text-decoration-none">NOTES</a> </h3>
+                <div class="fw-normal text-muted mb-4">
+                    New Here? <a href="{% url 'signup' %}" class="text-primary fw-bold text-decoration-none">Create an Account</a>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                           name="{{ form.username.name }}" 
+                           id="floatingInput" 
+                           placeholder="Username"
+                           value="{{ form.username.value|default_if_none:'' }}">
+                    <label for="floatingInput">Username</label>
+                    {% if form.username.errors %}
+                        <div class="invalid-feedback text-start">
+                            {{ form.username.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-floating">
+                    <input type="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}" 
+                           name="{{ form.password.name }}" 
+                           id="floatingPassword" 
+                           placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                    {% if form.password.errors %}
+                        <div class="invalid-feedback text-start">
+                            {{ form.password.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mt-2 text-end">
+                    <a href="#" class="text-primary fw-bold text-decoration-none">Forget Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit_btn w-100 my-4">Continue</button>
+
+                <div class="text-center text-muted text-uppercase mb-3">or</div>
+
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-light login_with w-100 mb-3">
+                    <img src="{% static 'images/google-icon.svg' %}" class="img-fluid me-3">Continue with Google
+                </a>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</html>
